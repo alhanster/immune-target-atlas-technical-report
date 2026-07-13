@@ -1,6 +1,6 @@
 # Immune Target Atlas
 
-### 🌐 Project site & technical report: **https://alhanster.github.io/immune-target-atlas/**
+### 🚨 Interactive Portal **https://alhanster.github.io/immune-target-atlas/**
 
 A four-layer human-genetics and causal functional-genomics framework that prioritizes
 novel drug targets for immune and autoimmune disease. It integrates four
