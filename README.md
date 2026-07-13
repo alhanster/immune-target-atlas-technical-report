@@ -1,4 +1,4 @@
-# Immune Target Atlas
+# Immune Target Atlas - Technical report
 
 ### 🔗 Interactive portal & technical report: **https://alhanster.github.io/immune-target-atlas/**
 
