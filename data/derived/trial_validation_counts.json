@@ -1,0 +1,8 @@
+{
+  "top_n": 25,
+  "top_any_drug": 6,
+  "top_immune": 5,
+  "ctrl_n": 50,
+  "ctrl_any_drug": 1,
+  "ctrl_immune": 0
+}

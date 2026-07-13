@@ -1,0 +1,13 @@
+"Metric","Value"
+"IEI genes (unique)",505
+"FDA immune-drug target genes (unique)",723
+"Gene overlap (in both)",72
+"IEI only",433
+"FDA only",651
+"Union (either list)",1156
+"% of IEI genes that are FDA immune-drug targets",14.3
+"% of FDA target genes that are IEI genes",10
+"Jaccard similarity (%)",6.2
+"FDA-approved immune-indicated drugs (unique)",927
+"Drugs targeting >=1 IEI gene",166
+"% of therapeutics targeting >=1 IEI gene",17.9

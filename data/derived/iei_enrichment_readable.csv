@@ -1,0 +1,6 @@
+Comparison group,IEI genes that are targets,Other genes that are targets,"Fold higher (odds ratio, 95% CI)",Fisher p
+"All genes (~20,000)",72 / 505 = 14.3%,651 / 19778 = 3.3%,"4.3× (OR 4.9, 3.8–6.3)",4e-24
+"Immune-expressed (HPA, nTPM≥1)",63 / 446 = 14.1%,369 / 12411 = 3.0%,"4.8× (OR 5.4, 4.0–7.1)",8e-23
+"Immune-expressed (HPA, nTPM≥5)",57 / 387 = 14.7%,291 / 9170 = 3.2%,"4.6× (OR 5.3, 3.9–7.1)",3e-20
+Druggable genome (Finan et al. 2017),65 / 211 = 30.8%,558 / 4252 = 13.1%,"2.3× (OR 2.9, 2.2–4.0)",8e-11
+Druggable ∩ immune-expressed,56 / 178 = 31.5%,282 / 2194 = 12.9%,"2.4× (OR 3.1, 2.2–4.4)",7e-10

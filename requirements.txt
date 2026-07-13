@@ -1,0 +1,28 @@
+# Python dependencies for the immune-target-atlas pipeline.
+# Pinned for reproducibility (built and tested against these).
+#
+#   python -m venv .venv && source .venv/bin/activate
+#   pip install -r requirements.txt
+
+# --- core model (src/model): PU-learning ranker + evaluation ---
+numpy>=1.26,<2.3
+pandas>=2.0,<2.3
+scikit-learn>=1.3
+lightgbm>=4.0
+shap>=0.44
+pyarrow>=14
+
+# --- Tier-2 recompute of derived intermediates ---
+# regulator-burden / polarization / kNN (stream the S3 .h5ad, fit scores)
+scipy
+h5py
+# Open Targets GraphQL pulls (drug list, GWAS scores, trial validation)
+requests
+# matplotlib is only needed for the Python figure fallbacks (src/figures/*.py);
+# the primary figure renderers are the R scripts (see R-requirements.txt).
+matplotlib
+# reading the Finan druggable-genome .xlsx in the enrichment step
+openpyxl
+
+# --- tests ---
+pytest

@@ -1,0 +1,26 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+
+# Large regenerable caches (streamed/derived; never committed) --------------
+# float32 memmaps rebuilt from the S3 perturb-seq .h5ad (~1.3 GB each)
+*.dat
+*_f32.dat
+# any locally downloaded .h5ad
+*.h5ad
+
+# Raw external data — NOT committed. Populated by scripts/fetch_data.py and the
+# subset_*.py scripts (see DATA.md). Committed subsets live in data/reference/.
+/data/raw/*
+!/data/raw/.gitkeep
+
+# Local reference copies of the source figures used only for visual diffing.
+/.reference_figures/
+
+# pytest
+.pytest_cache/

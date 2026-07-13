@@ -1,0 +1,11 @@
+# R packages for the figure renderers in src/figures/*.R
+# Install from an R session:
+#   install.packages(c("ggplot2","patchwork","jsonlite","ragg","uwot","scales"))
+#
+# Tested against R 4.4.
+ggplot2      # all figures
+patchwork    # multi-panel composition
+jsonlite     # reads outputs/metrics.json (fig_model.R) and *_counts.json (fig_trial.R)
+ragg         # AGG PNG device for correct Unicode glyph rendering (cairo fallback)
+uwot         # UMAP embedding for the kNN hub figure (fig_knn_candidates.R)
+scales       # axis/label formatting

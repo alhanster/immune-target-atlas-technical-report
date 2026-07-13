@@ -1,0 +1,26 @@
+pu_rank,gene,n_known_drugs,max_clinical_stage,example_drug,immune_max_stage,immune_example_drug,immune_indication
+2,NOS2,4,Phase III,TILARGININE ACETATE,Phase II,TILARGININE,acute chest syndrome
+5,IL10,1,Phase I/II,SCH-708980,,,
+6,CFHR3,0,,,,,
+10,CDCA7,0,,,,,
+11,ERN1,0,,,,,
+13,MAP3K14,0,,,,,
+14,NBEAL2,0,,,,,
+15,NLRP3,0,,,,,
+17,SRP54,0,,,,,
+18,IRF3,0,,,,,
+19,ZAP70,0,,,,,
+20,CD40,10,Phase II,LUCATUMUMAB,Phase II,LUCATUMUMAB,lymphoma
+21,CORO1A,0,,,,,
+22,ACTB,0,,,,,
+23,RPSA,5,Approved,ATALUREN,Phase II,MT-3724,diffuse large B-cell lymphoma
+24,ICOSLG,1,Phase II,AMG-557,Phase II,AMG-557,systemic lupus erythematosus
+25,IKBKE,0,,,,,
+26,RASGRP1,0,,,,,
+29,IKZF1,0,,,,,
+30,NFKBIA,0,,,,,
+31,CARD11,0,,,,,
+32,RORC,0,,,,,
+34,RAD50,0,,,,,
+35,CXCR2,7,Phase III,REPARIXIN,Phase III,REPARIXIN,type 1 diabetes mellitus
+36,ATM,0,,,,,
