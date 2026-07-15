@@ -1,5 +1,5 @@
 """
-Build the IEI x FDA-immune-drug-target enrichment table across background
+Build the IEI x approved-immune-drug-target enrichment table across background
 universes, from the four source gene lists.
 
 Reproduces the summary table (the uploaded photo):
@@ -8,7 +8,7 @@ and the readable companion CSV with counted fractions.
 
 Source files (gene symbols):
     IEI_gene_list.csv                 505 unique inborn-errors-of-immunity genes
-    fda_approved_target_genes.txt     723 FDA immune-drug target genes
+    approved_target_genes.txt         723 immune-drug target genes (OT-approved)
     druggable_genome_gene_list.xlsx   ~4,479 druggable-genome genes (Finan et al. 2017)
     rna_immune_cell.tsv               HPA RNA-seq, 20,162 genes x 19 sorted immune
                                       cell types (long format; nTPM column)
@@ -24,7 +24,7 @@ from scipy.stats import fisher_exact
 from pathlib import Path
 _REPO     = Path(__file__).resolve().parents[2]
 IEI_CSV   = _REPO / "data" / "reference" / "IEI_gene_list.csv"
-FDA_TXT   = _REPO / "data" / "reference" / "fda_approved_target_genes.txt"
+APPROVED_TXT   = _REPO / "data" / "reference" / "approved_target_genes.txt"
 DRUG_XLSX = _REPO / "data" / "reference" / "druggable_genome_gene_list.xlsx"
 # HPA immune-cell RNA reduced to per-gene max nTPM (committed subset; see DATA.md).
 HPA_TSV   = _REPO / "data" / "reference" / "hpa_immune_max_ntpm.tsv"
@@ -33,10 +33,10 @@ _DERIVED  = _REPO / "data" / "derived"
 
 def load_lists():
     iei = set(pd.read_csv(IEI_CSV)['Gene'].dropna().astype(str).str.strip())
-    with open(FDA_TXT) as f:
-        fda = set(l.strip() for l in f if l.strip())
+    with open(APPROVED_TXT) as f:
+        approved_targets = set(l.strip() for l in f if l.strip())
     drug = set(pd.read_excel(DRUG_XLSX)['Gene'].dropna().astype(str).str.strip())
-    return iei, fda, drug
+    return iei, approved_targets, drug
 
 
 def immune_expressed_sets(thresholds=(1, 5, 10)):
@@ -70,10 +70,10 @@ def enrich(iei, target, universe, label):
 
 
 def build_enrichment_table():
-    iei, fda, drug = load_lists()
+    iei, approved_targets, drug = load_lists()
     imm, hpa_all, _ = immune_expressed_sets()
 
-    all_pc = hpa_all | iei | fda | drug        # whole-genome proxy (~20,283 symbols)
+    all_pc = hpa_all | iei | approved_targets | drug        # whole-genome proxy (~20,283 symbols)
     universes = [
         ("All genes (HPA-20k proxy)",     all_pc),
         ("Immune-expressed nTPM>=1",      imm[1]),
@@ -81,7 +81,7 @@ def build_enrichment_table():
         ("Druggable genome",              drug),
         ("Druggable ∩ immune-expr(>=1)",  drug & imm[1]),
     ]
-    res = pd.DataFrame([enrich(iei, fda, U, lab) for lab, U in universes])
+    res = pd.DataFrame([enrich(iei, approved_targets, U, lab) for lab, U in universes])
 
     # readable companion: every rate as a counted fraction; fold from FULL-precision
     # ratio rounded ONCE to 1 dp (avoid double-rounding, e.g. 2.35 -> 2.4)

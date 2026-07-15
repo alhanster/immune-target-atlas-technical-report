@@ -14,7 +14,7 @@ ranking of all 18,692 protein-coding genes:
 4. **Causal functional genomics** — genome-scale CRISPRi perturb-seq in primary
    human CD4⁺ T cells (regulator-burden + Th1/Th2 polarization + nearest-target kNN).
 
-A **positive–unlabeled (PU) learning** model treats FDA-approved immune-drug
+A **positive–unlabeled (PU) learning** model treats approved immune-drug
 targets as positives and ranks every gene by immune-target potential, with
 group-aware cross-validation (gene-family holdout) and per-gene SHAP attribution.
 
@@ -24,10 +24,10 @@ group-aware cross-validation (gene-family holdout) and per-gene SHAP attribution
 src/
   shared/            gene_name_utils.py — HGNC symbol harmonization (shared)
   data_build/        build the master gene table + drug-list ingestion
-  iei_enrichment/    Part 1 — IEI vs FDA-target Fisher enrichment
+  iei_enrichment/    Part 1 — IEI vs approved-target Fisher enrichment
   gwas/              Part 3 — Open Targets GWAS credible-set scores
   regulator_burden/  Part 2 — regulator-burden + Th1/Th2 polarization (perturb-seq)
-  knn/               Part 4 — nearest-FDA-target cosine similarity in signature space
+  knn/               Part 4 — nearest-approved-target cosine similarity in signature space
   model/             the PU-learning ranker (run: python -m model.run)
   figures/           R (+ Python) renderers for the 7 manuscript figures
 data/

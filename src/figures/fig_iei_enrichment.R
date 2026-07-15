@@ -2,7 +2,7 @@
 # make_manuscript_figure.R
 #
 # Two-panel manuscript figure (ggplot2 / patchwork port of make_manuscript_figure.py):
-# enrichment of IEI-associated genes among FDA immune-drug targets, across five
+# enrichment of IEI-associated genes among approved immune-drug targets, across five
 # background universes.
 #
 #   Panel A  rate bars       -- % of IEI vs non-IEI genes that are targets, in three
@@ -117,7 +117,7 @@ panelA <- ggplot(barsA, aes(x, rate, fill = group)) +
   scale_x_continuous(breaks = xn, labels = disp3) +
   scale_y_continuous(limits = c(0, 44), expand = expansion(mult = c(0, 0.02))) +
   labs(x = NULL,
-       y = "% that are targets of an\nFDA-approved immune drug",
+       y = "% that are targets of an\napproved immune drug",
        tag = "a") +
   base_theme +
   theme(axis.text.x            = element_text(size = 7.8),

@@ -2,7 +2,7 @@
 # make_gwas_violin.R
 #
 # Violin plot comparing the GWAS credible-set gene score (immune system disorder)
-# between FDA-approved drug targets and non-targets, over the full gene list.
+# between approved drug targets and non-targets, over the full gene list.
 # Styled after syngap1_olink/analysis (config.R + utils.R + VolcanoPlot_Compiled.R),
 # self-contained: config and save_figure() inlined below.
 
@@ -27,7 +27,7 @@ OUTPUT_DIR        <- file.path(script_dir, "..", "..", "plots")
 DATA_DIR          <- file.path(script_dir, "..", "..", "data")
 BASE_TEXT_SIZE    <- 7
 FIGURE_DPI        <- 300
-TARGET_COLOR      <- "#009E73"   # FDA-approved drug target (Okabe-Ito green)
+TARGET_COLOR      <- "#009E73"   # approved drug target (Okabe-Ito green)
 NONTARGET_COLOR   <- "grey"      # non-target
 colorblind_palette <- c(TARGET_COLOR, NONTARGET_COLOR)   # matched to factor order
 
@@ -43,18 +43,18 @@ save_figure <- function(plot, filename, width, height) {
 # =============================================================================
 full_gene_list <- read.delim(file.path(DATA_DIR, "derived", "full_gene_list.tsv"),
                              stringsAsFactors = FALSE, check.names = FALSE)
-fda_targets <- readLines(file.path(DATA_DIR, "reference", "fda_approved_target_genes.txt"))
-fda_targets <- trimws(fda_targets)
-fda_targets <- fda_targets[nzchar(fda_targets)]
+approved_targets <- readLines(file.path(DATA_DIR, "reference", "approved_target_genes.txt"))
+approved_targets <- trimws(approved_targets)
+approved_targets <- approved_targets[nzchar(approved_targets)]
 
 plot_data <- full_gene_list %>%
   mutate(gwas_score = suppressWarnings(as.numeric(gwas_score))) %>%
   filter(!is.na(gwas_score)) %>%
-  mutate(is_target = gene %in% fda_targets)
+  mutate(is_target = gene %in% approved_targets)
 
 n_target    <- sum(plot_data$is_target)
 n_nontarget <- sum(!plot_data$is_target)
-lab_target    <- sprintf("FDA-approved\ndrug target\n(n = %s)", format(n_target, big.mark = ","))
+lab_target    <- sprintf("approved\ndrug target\n(n = %s)", format(n_target, big.mark = ","))
 lab_nontarget <- sprintf("Non-target\n(n = %s)",                format(n_nontarget, big.mark = ","))
 
 plot_data <- plot_data %>%
@@ -62,7 +62,7 @@ plot_data <- plot_data %>%
                          levels = c(lab_target, lab_nontarget)))
 
 # =============================================================================
-# Violin plot: FDA drug targets vs non-targets
+# Violin plot: approved drug targets vs non-targets
 # =============================================================================
 plot_violin <- ggplot(plot_data, aes(x = Target, y = gwas_score, fill = Target)) +
   geom_violin(trim = TRUE, color = NA, alpha = 0.7) +

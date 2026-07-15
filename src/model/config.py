@@ -13,7 +13,7 @@ from typing import Literal
 # config.py lives at <repo>/src/model/config.py -> parents[2] is the repo root.
 ROOT = Path(__file__).resolve().parents[2]
 GENE_LIST_TSV = ROOT / "data" / "derived" / "full_gene_list.tsv"
-FDA_TXT = ROOT / "data" / "reference" / "fda_approved_target_genes.txt"
+APPROVED_TXT = ROOT / "data" / "reference" / "approved_target_genes.txt"
 HGNC_GROUPS_TSV = ROOT / "data" / "reference" / "hgnc_gene_groups.tsv"
 OUT_DIR = ROOT / "outputs"
 

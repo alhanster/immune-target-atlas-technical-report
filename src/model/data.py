@@ -1,6 +1,6 @@
 """Data loading and gene-family grouping.
 
-Loads the full gene table (all 18,692 rows kept — never dropped), the FDA
+Loads the full gene table (all 18,692 rows kept — never dropped), the
 approved-target list, and derives a per-gene CV family from HGNC gene groups
 (primary) with a symbol-prefix fallback (approximate) for genes lacking a group.
 """
@@ -23,7 +23,7 @@ def load_gene_table(path: Path = config.GENE_LIST_TSV) -> pd.DataFrame:
     return df
 
 
-def load_fda_targets(path: Path = config.FDA_TXT) -> set[str]:
+def load_approved_targets(path: Path = config.APPROVED_TXT) -> set[str]:
     """Return the set of approved drug-target gene symbols."""
     with open(path) as fh:
         return {ln.strip() for ln in fh if ln.strip()}

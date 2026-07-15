@@ -1,7 +1,7 @@
 """Label construction and the gwas_score provenance guardrail.
 
 Two positive sets are always built (guardrail #2):
-  a) 'all'    — every approved FDA target present in the gene list.
+  a) 'all'    — every approved target present in the gene list.
   b) 'immune' — approved targets that ALSO have gwas_score>0 OR IEI==1 (the
                 primary/honest immune-restricted target).
 """
@@ -45,29 +45,29 @@ def gwas_provenance_warning() -> str:
     )
 
 
-def build_labels(df: pd.DataFrame, fda: set[str]) -> pd.DataFrame:
+def build_labels(df: pd.DataFrame, approved_targets: set[str]) -> pd.DataFrame:
     """Add label columns to df (returns the same frame).
 
     Adds:
-      label_all      — 1 if gene is an approved FDA target.
+      label_all      — 1 if gene is an approved target.
       label_immune   — 1 if approved AND (gwas_score>0 OR IEI==1).
       gwas_present   — gwas_score != 0 indicator.
     """
     df = df.copy()
-    df["label_all"] = df["gene"].isin(fda).astype(int)
+    df["label_all"] = df["gene"].isin(approved_targets).astype(int)
     df["gwas_present"] = (df["gwas_score"] != 0).astype(int)
     immune_evidence = (df["gwas_score"] > 0) | (df["IEI"] == 1)
     df["label_immune"] = (df["label_all"].astype(bool) & immune_evidence).astype(int)
     return df
 
 
-def label_summary(df: pd.DataFrame, fda: set[str]) -> dict:
-    n_fda_file = len(fda)
-    n_in_list = int(df["gene"].isin(fda).sum())
+def label_summary(df: pd.DataFrame, approved_targets: set[str]) -> dict:
+    n_approved_file = len(approved_targets)
+    n_in_list = int(df["gene"].isin(approved_targets).sum())
     return {
-        "n_fda_file": n_fda_file,
-        "n_fda_in_gene_list": n_in_list,
-        "n_fda_missing_from_list": n_fda_file - n_in_list,
+        "n_approved_file": n_approved_file,
+        "n_approved_in_gene_list": n_in_list,
+        "n_approved_missing_from_list": n_approved_file - n_in_list,
         "positives_all": int(df["label_all"].sum()),
         "positives_immune": int(df["label_immune"].sum()),
         "n_genes": len(df),

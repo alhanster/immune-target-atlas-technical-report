@@ -32,9 +32,9 @@
     "gwas_provenance_confirmed": true,
     "gwas_provenance_note": "gwas_score = Open Targets 'gwas_credible_sets' datasource score for MONDO:0005046 (genetics/GWAS component of genetic_association), NOT the overall association score. Confirmed from src/gwas/gwas_gene_scores.py (datasources filter + datasourceScores read). No ChEMBL/known-drug leakage.",
     "label_summary": {
-      "n_fda_file": 723,
-      "n_fda_in_gene_list": 691,
-      "n_fda_missing_from_list": 32,
+      "n_approved_file": 723,
+      "n_approved_in_gene_list": 691,
+      "n_approved_missing_from_list": 32,
       "positives_all": 691,
       "positives_immune": 361,
       "n_genes": 18692

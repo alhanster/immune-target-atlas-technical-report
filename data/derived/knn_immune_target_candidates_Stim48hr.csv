@@ -1,4 +1,4 @@
-gene,kNN_max_score,nearest_fda_target,is_fda_target,n_downstream_z3,culture_condition
+gene,kNN_max_score,nearest_approved_target,is_approved_target,n_downstream_z3,culture_condition
 VAV1,0.7769622802734375,ITK,False,2158,Stim48hr
 ZAP70,0.7562594413757324,CD3E,False,1593,Stim48hr
 PLCG1,0.7535853385925293,CD3E,False,1326,Stim48hr

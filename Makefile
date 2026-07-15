@@ -10,7 +10,7 @@ PIP := ./.venv/bin/pip
 export PYTHONPATH := src
 
 .PHONY: help setup install model scored figures test clean \
-        fetch-data gene-list scores tier2
+        fetch-data gene-list scores tier2 approved-genes
 
 help:
 	@echo "Tier 1 (offline, from committed data):"
@@ -25,6 +25,7 @@ help:
 	@echo "  make fetch-data - stream/pull the raw inputs into data/raw/"
 	@echo "  make gene-list  - rebuild data/derived/full_gene_list.tsv"
 	@echo "  make tier2      - regenerate all derived intermediates"
+	@echo "  make approved-genes - rebuild data/reference/approved_target_genes.txt from Open Targets"
 
 # ---- Tier 1 -----------------------------------------------------------------
 setup: install
@@ -68,6 +69,17 @@ fetch-data:
 gene-list:
 	$(PY) src/data_build/creating_full_gene_list.py
 
+# rebuild the approved immune drug-target label set from Open Targets (network).
+# Overwrites the committed data/reference/approved_target_genes.txt, which SHIFTS
+# the PU-model labels -> re-run `make model` and `make figures` afterwards.
+approved-genes:
+	$(PY) src/data_build/build_approved_immune_ot.py \
+	    --evidence-out data/raw/approved_immune_drugs_evidence_ot.csv \
+	    --gene-out     data/raw/approved_immune_drugs_by_gene_ot.csv
+	$(PY) src/data_build/write_approved_target_genes.py \
+	    --in  data/raw/approved_immune_drugs_by_gene_ot.csv \
+	    --out data/reference/approved_target_genes.txt
+
 # regenerate every derived intermediate (requires network + the S3 .h5ad stream)
 tier2: fetch-data
 	$(PY) src/gwas/gwas_gene_scores.py
@@ -76,6 +88,6 @@ tier2: fetch-data
 	$(PY) src/data_build/regulator_burden_wide.py
 	$(PY) src/knn/knn_immune_target_score.py
 	$(PY) src/knn/embed_signatures.py
-	$(PY) src/knn/add_fda_drugs_column.py
+	$(PY) src/knn/add_approved_drugs_column.py
 	$(PY) src/data_build/creating_full_gene_list.py
 	$(PY) src/iei_enrichment/make_enrichment_table.py

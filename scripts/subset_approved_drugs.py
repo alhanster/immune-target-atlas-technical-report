@@ -2,8 +2,8 @@
 table, so the repo ships a small committed file instead of the 56 MB raw pull.
 
 The full ``immune_system_drugs.csv`` (~324k rows) is only consumed by
-``src/knn/add_fda_drugs_column.py``, which needs, per target gene, the set of
-FDA-approved drug names (``maxClinicalStage == "APPROVAL"``). This keeps exactly
+``src/knn/add_approved_drugs_column.py``, which needs, per target gene, the set of
+approved drug names (``maxClinicalStage == "APPROVAL"``). This keeps exactly
 those rows and the three columns used.
 
 Full source (see DATA.md): regenerate ``immune_system_drugs.csv`` via

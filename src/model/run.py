@@ -108,12 +108,12 @@ def main(argv=None):
     # ---- Load -----------------------------------------------------------
     print("Loading data ...")
     df = data.load_gene_table()
-    fda = data.load_fda_targets()
-    df = labels.build_labels(df, fda)
+    approved_targets = data.load_approved_targets()
+    df = labels.build_labels(df, approved_targets)
     family, fam_info = data.load_family_groups(df["gene"].tolist())
     assert len(df) == 18692, f"expected 18,692 genes, got {len(df)} (rows must not drop)"
 
-    lab = labels.label_summary(df, fda)
+    lab = labels.label_summary(df, approved_targets)
 
     # ---- Guardrail banners ---------------------------------------------
     print("\n" + "=" * 78)
@@ -122,7 +122,7 @@ def main(argv=None):
     print("[GUARDRAIL 2 — positive-set definition]")
     print(f"  (a) all approved targets in gene list : {lab['positives_all']} positives")
     print(f"  (b) immune-restricted (gwas>0 or IEI) : {lab['positives_immune']} positives  <- PRIMARY")
-    print(f"  FDA file lists {lab['n_fda_file']}; {lab['n_fda_missing_from_list']} not in the 18,692-gene universe.")
+    print(f"  approved-target file lists {lab['n_approved_file']}; {lab['n_approved_missing_from_list']} not in the 18,692-gene universe.")
     print("-" * 78)
     print("[GUARDRAIL 3 — no dropping rows]")
     print(f"  Kept all {lab['n_genes']} genes. NA handled per-column (see README); "

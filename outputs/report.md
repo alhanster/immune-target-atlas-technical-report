@@ -6,7 +6,7 @@
 
 **1. gwas_score provenance — CONFIRMED SAFE.** `gwas_score` is the Open Targets `gwas_credible_sets` *datasource* score for MONDO:0005046 (the GWAS component of `genetic_association`), verified from `src/gwas/gwas_gene_scores.py`. It is **not** the overall association score, so it does not fold in the ChEMBL known-drug datasource and does **not** leak approval labels. The with/without-gwas ablation is still reported below for transparency.
 
-**2. Positive-set definition.** (a) all approved = **691** positives; (b) immune-restricted (gwas>0 or IEI==1) = **361** positives — **(b) is the primary/honest target**, (a) is the sensitivity analysis. The FDA file lists 723 symbols; 32 are outside the 18,692-gene universe.
+**2. Positive-set definition.** (a) all approved = **691** positives; (b) immune-restricted (gwas>0 or IEI==1) = **361** positives — **(b) is the primary/honest target**, (a) is the sensitivity analysis. The approved-target file lists 723 symbols; 32 are outside the 18,692-gene universe.
 
 **3. No dropping rows.** All **18692** genes retained; per-column NA policy (0-impute + presence indicator for assay/polarization blocks; native NaN for constraint columns). No complete-casing.
 

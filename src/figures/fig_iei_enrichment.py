@@ -1,5 +1,5 @@
 """
-Two-panel manuscript figure: enrichment of IEI-associated genes among FDA
+Two-panel manuscript figure: enrichment of IEI-associated genes among approved
 immune-drug targets, across five background universes.
 
   Panel A  rate bars       — % of IEI vs non-IEI genes that are targets,
@@ -11,7 +11,7 @@ Inputs
 Expects a DataFrame `res` with one row per background universe and columns:
     universe, N, a, b, c, d, p_tgt_iei, p_tgt_non, RR, OR, OR_lo, OR_hi, p
 where for each universe (restricted to that gene set):
-    a = # IEI genes that are FDA immune-drug targets
+    a = # IEI genes that are approved immune-drug targets
     b = # IEI genes that are not targets
     c = # non-IEI genes that are targets
     d = # non-IEI genes that are not targets
@@ -77,7 +77,7 @@ def make_figure(res, outfile="iei_enrichment_manuscript.png"):
     axA.bar(x - w/2, iei_rate, w, label='IEI-associated genes', color='#c0392b')
     axA.bar(x + w/2, non_rate, w, label='all other genes', color='#9aa5a8')
     axA.set_xticks(x); axA.set_xticklabels(disp3, fontsize=7.5)
-    axA.set_ylabel('% that are targets of an\nFDA-approved immune drug', labelpad=10)
+    axA.set_ylabel('% that are targets of an\napproved immune drug', labelpad=10)
     axA.set_ylim(0, 40)
     set_frame(axA)
     axA.legend(frameon=False, loc='upper left', fontsize=8, bbox_to_anchor=(0.0, 1.0))
@@ -112,14 +112,14 @@ def make_figure(res, outfile="iei_enrichment_manuscript.png"):
     set_frame(axB)
     panel_letter(axB, 'b')
 
-    fig.suptitle('IEI-associated genes are enriched for FDA immune-drug targets '
+    fig.suptitle('IEI-associated genes are enriched for approved immune-drug targets '
                  'across every background universe',
                  fontsize=10, y=1.01, x=0.02, ha='left')
     fig.text(0.5, -0.06,
              'Immune-expressed universe: Human Protein Atlas, 19 sorted immune cell types '
              '(max nTPM ≥ threshold). Druggable genome: Finan et al. 2017. Enrichment by '
              'two-sided Fisher exact test; all p < 1×10⁻¹⁰. n = 505 IEI genes, '
-             '723 FDA immune-drug target genes, 72 shared.',
+             '723 approved immune-drug target genes, 72 shared.',
              ha='center', fontsize=6.6, color='#555', wrap=True)
     fig.tight_layout()
     fig.savefig(outfile, dpi=300, bbox_inches='tight')

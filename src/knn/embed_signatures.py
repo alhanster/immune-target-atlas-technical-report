@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Signature PCA export for the kNN FDA-target figure — CD4+ T-cell Perturb-seq
+Signature PCA export for the kNN approved-target figure — CD4+ T-cell Perturb-seq
 ============================================================================
 Figure-support helper for make_knn_candidates_figure.R. Rebuilds the per-gene
 normalized knockdown-signature matrix `Xn` (exactly as knn_immune_target_score.py
@@ -13,10 +13,10 @@ keep the scoring script's "two CSVs only" output contract untouched.
 
 INPUT   (all reused, nothing re-downloaded)
   - the cached zscore memmap (zscore_f32.dat) via knn_immune_target_score.py
-  - knn_immune_target_candidates_<COND>.csv  (for is_fda_target / nearest_fda_target)
+  - knn_immune_target_candidates_<COND>.csv  (for is_approved_target / nearest_approved_target)
 
 OUTPUT  one CSV per condition:  knn_signature_pcs_<COND>.csv
-  columns: gene, is_fda_target, nearest_fda_target, PC1 ... PC50
+  columns: gene, is_approved_target, nearest_approved_target, PC1 ... PC50
 
 USAGE
   python embed_signatures.py                       # Stim8hr + Stim48hr
@@ -29,7 +29,7 @@ import numpy as np, pandas as pd
 from sklearn.decomposition import PCA
 
 # Reuse the scorer's streaming helpers so the two stay in lockstep and nothing is
-# re-downloaded (the memmap is cached). FDA membership / nearest-target labels are
+# re-downloaded (the memmap is cached). approved membership / nearest-target labels are
 # merged from the candidate CSV, so no HGNC/reference machinery is needed here.
 from knn_immune_target_score import open_h5ad, read_cat, stream_zscore
 
@@ -79,9 +79,9 @@ def main(conditions, min_cells=50):
 
         # Attach the figure's color keys from the already-written candidate CSV.
         cand = pd.read_csv(DERIVED / f"knn_immune_target_candidates_{C}.csv",
-                           usecols=["gene", "is_fda_target", "nearest_fda_target"])
+                           usecols=["gene", "is_approved_target", "nearest_approved_target"])
         df = df.merge(cand, on="gene", how="left")
-        df = df[["gene", "is_fda_target", "nearest_fda_target"]
+        df = df[["gene", "is_approved_target", "nearest_approved_target"]
                 + [f"PC{i+1}" for i in range(N_PCS)]]
 
         out = str(DERIVED / f"knn_signature_pcs_{C}.csv")

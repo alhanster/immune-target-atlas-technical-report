@@ -27,8 +27,8 @@ def render_report(cfg, lab, fam_info, primary, baseline, ablation, shap_out, nom
     L.append(f"**2. Positive-set definition.** (a) all approved = **{lab['positives_all']}** "
              f"positives; (b) immune-restricted (gwas>0 or IEI==1) = **{lab['positives_immune']}** "
              f"positives — **(b) is the primary/honest target**, (a) is the sensitivity analysis. "
-             f"The FDA file lists {lab['n_fda_file']} symbols; "
-             f"{lab['n_fda_missing_from_list']} are outside the 18,692-gene universe.\n")
+             f"The approved-target file lists {lab['n_approved_file']} symbols; "
+             f"{lab['n_approved_missing_from_list']} are outside the 18,692-gene universe.\n")
     L.append(f"**3. No dropping rows.** All **{lab['n_genes']}** genes retained; per-column NA "
              "policy (0-impute + presence indicator for assay/polarization blocks; native NaN "
              "for constraint columns). No complete-casing.\n")

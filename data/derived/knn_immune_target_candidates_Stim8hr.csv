@@ -1,4 +1,4 @@
-gene,kNN_max_score,nearest_fda_target,is_fda_target,n_downstream_z3,culture_condition
+gene,kNN_max_score,nearest_approved_target,is_approved_target,n_downstream_z3,culture_condition
 PLCG1,0.9336004853248596,CD3E,False,3482,Stim8hr
 LAT,0.9333547353744507,CD3E,False,3976,Stim8hr
 LCP2,0.933204710483551,CD3D,False,3538,Stim8hr

@@ -10,10 +10,10 @@ from model.config import Config
 @pytest.fixture(scope="module")
 def loaded():
     df = data.load_gene_table()
-    fda = data.load_fda_targets()
-    df = labels.build_labels(df, fda)
+    approved_targets = data.load_approved_targets()
+    df = labels.build_labels(df, approved_targets)
     family, info = data.load_family_groups(df["gene"].tolist())
-    return df, fda, family, info
+    return df, approved_targets, family, info
 
 
 def test_no_rows_dropped(loaded):
@@ -22,8 +22,8 @@ def test_no_rows_dropped(loaded):
 
 
 def test_label_sets(loaded):
-    df, fda, *_ = loaded
-    lab = labels.label_summary(df, fda)
+    df, approved_targets, *_ = loaded
+    lab = labels.label_summary(df, approved_targets)
     # set b (immune) must be a strict subset of set a (all)
     assert lab["positives_immune"] <= lab["positives_all"]
     assert lab["positives_all"] == int(df["label_all"].sum())

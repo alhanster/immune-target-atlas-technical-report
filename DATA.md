@@ -34,7 +34,7 @@ Small intermediates this project produces; needed for Tier-1 reproduction.
 | File | Source | Notes |
 |---|---|---|
 | `data/reference/IEI_gene_list.csv` | IUIS Inborn Errors of Immunity classification (Tangye et al. 2022) | 504-gene curated panel |
-| `data/reference/fda_approved_target_genes.txt` | Target genes of FDA-approved immune-indicated drugs (Open Targets) | 723 symbols; the PU-model supervision labels |
+| `data/reference/approved_target_genes.txt` | Target genes of approved immune-indicated drugs (Open Targets); regenerate with `make approved-genes` | 723 symbols; the PU-model supervision labels. "Approved" = Open Targets `APPROVAL` for the immune indication (regulator-agnostic, **not** FDA-specific) |
 | `data/reference/hgnc_gene_groups.tsv` | HGNC gene groups | frozen snapshot; defines CV gene families (exact reproducibility depends on this snapshot) |
 | `data/reference/druggable_genome_gene_list.xlsx` | Finan et al. 2017, *Sci. Transl. Med.* (druggable genome) | 68 KB; committed directly |
 | `data/reference/gnomad_constraint_subset.tsv` | **subset** of gnomAD v4.1.1 constraint metrics (canonical) | 278 MB → 1.7 MB; see `scripts/subset_gnomad.py` |
@@ -46,7 +46,7 @@ Small intermediates this project produces; needed for Tier-1 reproduction.
 
 | Source | How it's obtained | Consumed by |
 |---|---|---|
-| Open Targets Platform (GraphQL API, v4) | pulled by `src/data_build/build_immune_drug_dataset.py`, `src/gwas/gwas_gene_scores.py`, `src/figures/fig_trial.py --fetch` | drug list, GWAS scores, trial validation |
+| Open Targets Platform (GraphQL API, v4) | pulled by `src/data_build/build_immune_drug_dataset.py`, `src/data_build/build_approved_immune_ot.py`, `src/gwas/gwas_gene_scores.py`, `src/figures/fig_trial.py --fetch` | drug list, approved-target label set, GWAS scores, trial validation |
 | CD4⁺ perturb-seq DE matrix (`GWCD4i.DE_stats.h5ad`, ~16.8 GB, public S3) | streamed via HTTP range requests (no full download); cached as a ~1.3 GB `*_f32.dat` memmap (gitignored) | `regulator_burden_pipeline.py` (`log_fc`), `knn_immune_target_score.py` (`zscore`) |
 | gnomAD v4.1.1 constraint metrics (canonical), full (278 MB) | download from the gnomAD downloads page into `data/raw/`; only needed to **regenerate** `gnomad_constraint_subset.tsv` | `scripts/subset_gnomad.py` |
 | HPA `rna_immune_cell.tsv`, full (17 MB) | download from proteinatlas.org into `data/raw/`; only needed to **regenerate** `hpa_immune_max_ntpm.tsv` | `scripts/subset_hpa.py` |

@@ -5,13 +5,13 @@
 # per-condition signature-PC tables written by embed_signatures.py, computes a
 # UMAP per condition (uwot), and draws a 2x2 grid:
 #   rows    = culture condition (Stim8hr, Stim48hr)
-#   columns = coloring: FDA membership | nearest-target hubs
-# to show whether FDA drug-target anchors form coherent mechanistic islands in
+#   columns = coloring: approved membership | nearest-target hubs
+# to show whether approved drug-target anchors form coherent mechanistic islands in
 # knockdown-signature space. Theme mirrors Part 2's make_regulator_burden_figure.R.
 #
 # Inputs (path resolved relative to this script; run embed_signatures.py first):
-#   knn_signature_pcs_Stim8hr.csv   } columns: gene, is_fda_target,
-#   knn_signature_pcs_Stim48hr.csv  } nearest_fda_target, PC1..PC50
+#   knn_signature_pcs_Stim8hr.csv   } columns: gene, is_approved_target,
+#   knn_signature_pcs_Stim48hr.csv  } nearest_approved_target, PC1..PC50
 #
 # Output (written next to this script):
 #   knn_immune_target_manuscript.png   (300 dpi)
@@ -48,8 +48,8 @@ conds  <- c("Stim8hr", "Stim48hr")
 N_PCS  <- 50
 N_HUBS <- 8
 
-col_cand   <- "#BDC3C7"   # non-FDA candidate / "other" (gray)
-col_anchor <- "#2E86C1"   # FDA anchor (blue)
+col_cand   <- "#BDC3C7"   # non-approved candidate / "other" (gray)
+col_anchor <- "#2E86C1"   # approved anchor (blue)
 # Okabe-Ito colorblind-safe palette for the 8 nearest-target hubs.
 okabe_ito  <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442",
                 "#0072B2", "#D55E00", "#CC79A7", "#000000")
@@ -77,28 +77,28 @@ embed <- function(C) {
   um <- uwot::umap(pc, n_neighbors = 15, min_dist = 0.1,
                    metric = "euclidean", n_threads = 1)
   d$UMAP1 <- um[, 1]; d$UMAP2 <- um[, 2]
-  d$is_fda <- as.logical(d$is_fda_target)
+  d$is_approved <- as.logical(d$is_approved_target)
   d
 }
 emb <- setNames(lapply(conds, embed), conds)
 
 # --- Panel builders ---------------------------------------------------------
-# Left column: FDA anchors (blue) over non-FDA candidates (gray) -- do the
+# Left column: approved anchors (blue) over non-approved candidates (gray) -- do the
 # known drug targets occupy coherent regions, or scatter diffusely?
 panel_membership <- function(d, C) {
   ggplot(d, aes(UMAP1, UMAP2)) +
-    geom_point(data = d[!d$is_fda, ], colour = col_cand, size = 0.5, alpha = 0.5) +
-    geom_point(data = d[d$is_fda, ],  fill = col_anchor, shape = 21,
+    geom_point(data = d[!d$is_approved, ], colour = col_cand, size = 0.5, alpha = 0.5) +
+    geom_point(data = d[d$is_approved, ],  fill = col_anchor, shape = 21,
                size = 1.5, colour = "black", stroke = 0.15) +
-    labs(x = "UMAP1", y = "UMAP2", title = sprintf("%s · FDA membership", C)) +
+    labs(x = "UMAP1", y = "UMAP2", title = sprintf("%s · approved membership", C)) +
     base_theme
 }
 
-# Right column: color every gene by which of the 8 most-recurrent FDA targets it
+# Right column: color every gene by which of the 8 most-recurrent approved targets it
 # is nearest to (its mechanistic "island"); rest gray. Labels at island medians.
 panel_hubs <- function(d, C) {
-  hubs <- names(sort(table(d$nearest_fda_target), decreasing = TRUE))[seq_len(N_HUBS)]
-  d$hub <- factor(ifelse(d$nearest_fda_target %in% hubs, d$nearest_fda_target, "other"),
+  hubs <- names(sort(table(d$nearest_approved_target), decreasing = TRUE))[seq_len(N_HUBS)]
+  d$hub <- factor(ifelse(d$nearest_approved_target %in% hubs, d$nearest_approved_target, "other"),
                   levels = c(hubs, "other"))
   pal  <- setNames(c(okabe_ito, col_cand), c(hubs, "other"))
   cent <- do.call(rbind, lapply(hubs, function(h) {
@@ -110,7 +110,7 @@ panel_hubs <- function(d, C) {
     geom_point(data = d[d$hub != "other", ], aes(fill = hub), shape = 21,
                size = 1.5, colour = "black", stroke = 0.15) +
     geom_text(data = cent, aes(label = hub), fontface = "italic", size = 2, colour = "black") +
-    scale_fill_manual(values = pal, breaks = hubs, name = "nearest FDA target") +
+    scale_fill_manual(values = pal, breaks = hubs, name = "nearest approved target") +
     labs(x = "UMAP1", y = "UMAP2", title = sprintf("%s · nearest-target hubs", C)) +
     base_theme
 }

@@ -96,10 +96,10 @@ Script: `Data/filter_immune_indication.py`. Keeps rows where `immune_indication 
 
 ---
 
-## Step 3 — Keep FDA-approved → `immune_system_drugs_immune_approved.csv`
+## Step 3 — Keep approved → `immune_system_drugs_immune_approved.csv`
 
 Script: chained filter on step 2 for `maxClinicalStage == "APPROVAL"` (the current-schema
-stand-in for "FDA-approved" / old Phase 4). 21,735 → **18,202 rows** (927 distinct drugs).
+stand-in for "approved" / old Phase 4). 21,735 → **18,202 rows** (927 distinct drugs).
 Every row now has `immune_indication == 1` **and** `maxClinicalStage == APPROVAL`.
 
 ---
